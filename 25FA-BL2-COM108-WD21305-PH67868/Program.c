@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 
 void kiemTraSoNguyen()
 {
@@ -94,7 +96,7 @@ int main()
 		printf("\n");
 		printf("1. Kiem Tra So Nguyen");
 		printf("\n");
-		printf("2. TEN chuc nang 2");
+		printf("2. Tinh Trung Binh Tong Cac So Chia Het Cho 3 Trong Mang");
 		printf("\n");
 		printf("3. TEN chuc nang 3");
 		printf("\n");

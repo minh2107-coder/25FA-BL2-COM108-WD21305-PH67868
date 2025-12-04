@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -197,7 +197,7 @@ void VayTienMuaXe()
 	int soThang = 24 * 12;
 
 	int phanTramVay;
-	printf("Nhap vao so phan tram muon vay (vi du: 80): ");
+	printf("Nhap vao so phan tram muon vay : ");
 	scanf("%d", &phanTramVay);
 
 	float soTienVay = giaXe * phanTramVay / 100.0;
@@ -298,46 +298,61 @@ void TinhPhanSo() {
 		printf("Thuong: %d/%d\n", thuong_tu, thuong_mau);
 	}
 }
-struct SinhVien {
-	char hoTen[50];
-	float diem;
-	char hocLuc[20];
-};
 void SapXepTTSV() {
 	int n;
 	printf("Nhap so luong sinh vien: ");
 	scanf("%d", &n);
 	getchar();
 
-	struct SinhVien sv[100];
+	char hoTen[100][50];
+	float diem[100];
+	char hocLuc[100][20];
+
 	for (int i = 0; i < n; i++) {
 		printf("\nNhap ten sinh vien %d: ", i + 1);
-		fgets(sv[i].hoTen, sizeof(sv[i].hoTen), stdin);
+		fgets(hoTen[i], sizeof(hoTen[i]), stdin);
 
-		sv[i].hoTen[strcspn(sv[i].hoTen, "\n")] = '\0';
+		hoTen[i][strcspn(hoTen[i], "\n")] = '\0';
 
 		printf("Nhap diem sinh vien %d: ", i + 1);
-		scanf("%f", &sv[i].diem);
+		scanf("%f", &diem[i]);
 		getchar();
-		if (sv[i].diem >= 9) strcpy(sv[i].hocLuc, "Xuat sac");
-		else if (sv[i].diem >= 8) strcpy(sv[i].hocLuc, "Gioi");
-		else if (sv[i].diem >= 6.5) strcpy(sv[i].hocLuc, "Kha");
-		else if (sv[i].diem >= 5) strcpy(sv[i].hocLuc, "Trung binh");
-		else strcpy(sv[i].hocLuc, "Yeu");
+
+		if (diem[i] >= 9) strcpy(hocLuc[i], "Xuat sac");
+		else if (diem[i] >= 8) strcpy(hocLuc[i], "Gioi");
+		else if (diem[i] >= 6.5) strcpy(hocLuc[i], "Kha");
+		else if (diem[i] >= 5) strcpy(hocLuc[i], "Trung binh");
+		else strcpy(hocLuc[i], "Yeu");
 	}
+
+	// Sắp xếp giảm dần theo điểm
 	for (int i = 0; i < n - 1; i++) {
 		for (int j = i + 1; j < n; j++) {
-			if (sv[i].diem < sv[j].diem) {
-				struct SinhVien tmp = sv[i];
-				sv[i] = sv[j];
-				sv[j] = tmp;
+			if (diem[i] < diem[j]) {
+				// Hoán đổi điểm
+				float tmpD = diem[i];
+				diem[i] = diem[j];
+				diem[j] = tmpD;
+
+				// Hoán đổi tên
+				char tmpName[50];
+				strcpy(tmpName, hoTen[i]);
+				strcpy(hoTen[i], hoTen[j]);
+				strcpy(hoTen[j], tmpName);
+
+				// Hoán đổi học lực
+				char tmpHL[20];
+				strcpy(tmpHL, hocLuc[i]);
+				strcpy(hocLuc[i], hocLuc[j]);
+				strcpy(hocLuc[j], tmpHL);
 			}
 		}
 	}
+
 	printf("\n===== DANH SACH SINH VIEN =====\n");
 	for (int i = 0; i < n; i++) {
 		printf("%d. %s | Diem: %.2f | Hoc luc: %s\n",
-			i + 1, sv[i].hoTen, sv[i].diem, sv[i].hocLuc);
+			i + 1, hoTen[i], diem[i], hocLuc[i]);
 	}
 }
 void lapChucNang(int ChonChucNang)
@@ -396,7 +411,7 @@ int main()
 		printf("2. Tim uoc chung va boi chung\n");
 		printf("3. Tinh tien quan karaoke\n");
 		printf("4. Tinh tien dien\n");
-		printf("5. Doi tien\n");
+		printf("5. Chuc nang doi tien\n");
 		printf("6. Tinh lai vay\n");
 		printf("7. Vay tien mua xe\n");
 		printf("8. Sap xep thong tin sinh vien\n");

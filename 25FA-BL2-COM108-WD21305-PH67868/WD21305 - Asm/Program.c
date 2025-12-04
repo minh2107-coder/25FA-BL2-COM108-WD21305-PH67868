@@ -223,6 +223,56 @@ void VayTienMuaXe()
 	}
 
 }
+void SapXepTTSV() {
+	int n;
+	printf("Nhap so luong sinh vien: ");
+	scanf("%d", &n);
+	getchar();
+
+	char hoTen[100][50];
+	float diem[100];
+	char hocLuc[100][20];
+
+	for (int i = 0; i < n; i++) {
+		printf("\nNhap ten sinh vien %d: ", i + 1);
+		fgets(hoTen[i], sizeof(hoTen[i]), stdin);
+
+		hoTen[i][strcspn(hoTen[i], "\n")] = '\0';
+
+		printf("Nhap diem sinh vien %d: ", i + 1);
+		scanf("%f", &diem[i]);
+		getchar();
+
+		if (diem[i] >= 9) strcpy(hocLuc[i], "Xuat sac");
+		else if (diem[i] >= 8) strcpy(hocLuc[i], "Gioi");
+		else if (diem[i] >= 6.5) strcpy(hocLuc[i], "Kha");
+		else if (diem[i] >= 5) strcpy(hocLuc[i], "Trung binh");
+		else strcpy(hocLuc[i], "Yeu");
+	}
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			if (diem[i] < diem[j]) {
+				float tmpD = diem[i];
+				diem[i] = diem[j];
+				diem[j] = tmpD;
+				char tmpName[50];
+				strcpy(tmpName, hoTen[i]);
+				strcpy(hoTen[i], hoTen[j]);
+				strcpy(hoTen[j], tmpName);
+				char tmpHL[20];
+				strcpy(tmpHL, hocLuc[i]);
+				strcpy(hocLuc[i], hocLuc[j]);
+				strcpy(hocLuc[j], tmpHL);
+			}
+		}
+	}
+
+	printf("\n===== DANH SACH SINH VIEN =====\n");
+	for (int i = 0; i < n; i++) {
+		printf("%d. %s | Diem: %.2f | Hoc luc: %s\n",
+			i + 1, hoTen[i], diem[i], hocLuc[i]);
+	}
+}
 void XayDungGameFPL() {
 	int a, b;
 	int x, y;
@@ -296,63 +346,6 @@ void TinhPhanSo() {
 	}
 	else {
 		printf("Thuong: %d/%d\n", thuong_tu, thuong_mau);
-	}
-}
-void SapXepTTSV() {
-	int n;
-	printf("Nhap so luong sinh vien: ");
-	scanf("%d", &n);
-	getchar();
-
-	char hoTen[100][50];
-	float diem[100];
-	char hocLuc[100][20];
-
-	for (int i = 0; i < n; i++) {
-		printf("\nNhap ten sinh vien %d: ", i + 1);
-		fgets(hoTen[i], sizeof(hoTen[i]), stdin);
-
-		hoTen[i][strcspn(hoTen[i], "\n")] = '\0';
-
-		printf("Nhap diem sinh vien %d: ", i + 1);
-		scanf("%f", &diem[i]);
-		getchar();
-
-		if (diem[i] >= 9) strcpy(hocLuc[i], "Xuat sac");
-		else if (diem[i] >= 8) strcpy(hocLuc[i], "Gioi");
-		else if (diem[i] >= 6.5) strcpy(hocLuc[i], "Kha");
-		else if (diem[i] >= 5) strcpy(hocLuc[i], "Trung binh");
-		else strcpy(hocLuc[i], "Yeu");
-	}
-
-	// Sắp xếp giảm dần theo điểm
-	for (int i = 0; i < n - 1; i++) {
-		for (int j = i + 1; j < n; j++) {
-			if (diem[i] < diem[j]) {
-				// Hoán đổi điểm
-				float tmpD = diem[i];
-				diem[i] = diem[j];
-				diem[j] = tmpD;
-
-				// Hoán đổi tên
-				char tmpName[50];
-				strcpy(tmpName, hoTen[i]);
-				strcpy(hoTen[i], hoTen[j]);
-				strcpy(hoTen[j], tmpName);
-
-				// Hoán đổi học lực
-				char tmpHL[20];
-				strcpy(tmpHL, hocLuc[i]);
-				strcpy(hocLuc[i], hocLuc[j]);
-				strcpy(hocLuc[j], tmpHL);
-			}
-		}
-	}
-
-	printf("\n===== DANH SACH SINH VIEN =====\n");
-	for (int i = 0; i < n; i++) {
-		printf("%d. %s | Diem: %.2f | Hoc luc: %s\n",
-			i + 1, hoTen[i], diem[i], hocLuc[i]);
 	}
 }
 void lapChucNang(int ChonChucNang)
